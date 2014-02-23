@@ -1,13 +1,50 @@
 class MoviesController < ApplicationController
 
   def show
+#    raise params[:order].inspect
     id = params[:id] # retrieve movie ID from URI route
-    @movie = Movie.find(id) # look up movie by unique ID
+    @movie = Movie.find(id) # look up  movie by unique ID
     # will render app/views/movies/show.<extension> by default
   end
 
   def index
-    @movies = Movie.all
+    sort = params[:sort]# || session[:sort]
+    movie = Movie.all
+#    puts "sort ="
+#    puts sort
+#    puts "params[:sort] = "
+#    puts params[:sort]
+#    puts "session[:sort]"
+#    puts session[:sort]
+    if sort == 'title'
+      @movies = movie.sort_by {|m| m.title}
+      @title_header = 'hilite'
+      #@movies = Movie.find_by_all_ratings(ordering)
+      #@movies = Movie.order_by(session[:sort])
+      #ordering,@title_header = {:order => :title}, 'hilite'
+    elsif sort == 'release_date'
+      @movies = movie.sort_by {|m| m.release_date}.reverse
+      @date_header = 'hilite'
+    else
+      @movies = Movie.all
+    end
+       
+#    if session[:order] == params[:order]
+#      session[:order] = 'desc'
+#    else 
+#      session[:order] = params[:order] || session[:order]      
+#    end
+#    if session[:release] == params[:release]
+#      session[:release] = 'desc'
+#    else
+#     session[:release] = params[:release] || session[:release]
+#    end 
+     #raise 'wtf'
+#    puts session.inspect
+#    puts "session order = "
+#    puts session[:order]
+#    @movies = Movie.all
+#    @movies = Movie.order_by(session[:sort])
   end
 
   def new
