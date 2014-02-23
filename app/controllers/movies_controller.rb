@@ -19,11 +19,8 @@ class MoviesController < ApplicationController
     if sort == 'title'
       @movies = movie.sort_by {|m| m.title}
       @title_header = 'hilite'
-      #@movies = Movie.find_by_all_ratings(ordering)
-      #@movies = Movie.order_by(session[:sort])
-      #ordering,@title_header = {:order => :title}, 'hilite'
     elsif sort == 'release_date'
-      @movies = movie.sort_by {|m| m.release_date}.reverse
+      @movies = movie.sort_by {|m| m.release_date}
       @date_header = 'hilite'
     else
       @movies = Movie.all
