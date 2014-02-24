@@ -8,23 +8,35 @@ class MoviesController < ApplicationController
   end
 
   def index
-    sort = params[:sort]# || session[:sort]
-    movie = Movie.all
-#    puts "sort ="
-#    puts sort
-#    puts "params[:sort] = "
-#    puts params[:sort]
-#    puts "session[:sort]"
-#    puts session[:sort]
-    if sort == 'title'
-      @movies = movie.sort_by {|m| m.title}
-      @title_header = 'hilite'
+    sort = params[:sort]
+    ratings = params[:ratings] || {}
+    @all_ratings = Movie.all_ratings    
+    if params != session
+      session = params
+    end
+    if ratings == {}
+      @selected_ratings = Hash.new(0)
+      @all_ratings.each do |rating|
+        @selected_ratings[rating] = 1
+      end
+    else
+      @selected_ratings = params[:ratings] 
+    end
+   if sort == 'title'
+#      @movies = Movie.order_by(sort)#movie.sort_by {|m| m.title}
+      ordering,@title_header = {:order => :title}, 'hilite'
+#      redirect_to :sort => sort, :ratings => @selected_ratings and return
+#      @movies = Movie.find_by_rating!("G")
+      #@movies = Movie.order_by(session[:sort])
+      #ordering,@title_header = {:order => :title}, 'hilite'
     elsif sort == 'release_date'
-      @movies = movie.sort_by {|m| m.release_date}
-      @date_header = 'hilite'
+#      @movies = Movie.order_by(sort)#movie.sort_by {|m| m.release_date}
+      ordering,@date_header = {:order => :release_date}, 'hilite'
+ #     redirect_to :sort => sort, :ratings => @selected_ratings and return
     else
       @movies = Movie.all
     end
+    @movies = Movie.find_all_by_rating(@selected_ratings.keys,ordering)
        
 #    if session[:order] == params[:order]
 #      session[:order] = 'desc'
