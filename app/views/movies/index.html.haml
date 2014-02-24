@@ -9,15 +9,19 @@
 -#    = rating
 -#    = check_box_tag "ratings[#{rating}]", 1, @selected_ratings.include?(rating)
 -#  = submit_tag 'Refresh', :id => 'ratings_submit'
+-#      %th{:class => @title_header}= link_to "Movie Title", movies_path(:sort => 'title', :ratings => @selected_ratings, :session_id => session[:session_id]), :id => 'title_header'
+-#      %th{:class => @date_header}= link_to "Release Date", movies_path(:sort => 'release_date', :ratings => @selected_ratings, :session_id => session[:session_id]), :id => 'date_header'
+
 
 = form_tag movies_path, :method => :get do
   Include: 
-  - @all_ratings.each do |rating|
+  - @all_ratings.keys.each do |rating|
     = rating
     = check_box_tag "ratings[#{rating}]", 1, @selected_ratings.include?(rating)
   = submit_tag 'Refresh', :id => 'ratings_submit'
-  -puts "ratings from haml:"
-  -puts @selected_ratings
+-#  = submit_tag 'Refresh', :id => 'ratings_submit',:session_id => session[:session_id]
+-puts "session from Index.haml:"
+-puts session
 
 %table#movies
   %thead
