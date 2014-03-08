@@ -9,6 +9,13 @@ gem 'rails', '3.2.14'
 group :development, :test do
   gem 'sqlite3'
   gem 'debugger'
+  gem 'cucumber-rails'
+  gem 'cucumber-rails-training-wheels'
+  gem 'launchy'
+  gem 'capybara'
+  gem 'rspec-expectations'
+  gem 'database_cleaner'
+
 end
 group :production do
   gem 'pg'
